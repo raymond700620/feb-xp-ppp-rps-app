@@ -1,10 +1,15 @@
 package com.xp.rps.game;
 
+import com.xp.rps.gameadmin.GameAdminRepo;
+
 import static com.xp.rps.game.Throw.*;
 
 public class RPS {
 
-    public static Result play(Throw p1, Throw p2) {
+
+    public static Result playWithRepo(Throw p1, Throw p2, GameAdminRepo repoSpy) {
+        repoSpy.playRound();
+
         if (p1==p2) {
             return Result.DRAW;
         }
@@ -20,5 +25,6 @@ public class RPS {
             return Result.P1_WINS;
         }
         return Result.P2_WINS;
+
     }
 }

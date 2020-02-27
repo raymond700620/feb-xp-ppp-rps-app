@@ -4,9 +4,16 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class InMemoryGameAdminRepo implements GameAdminRepo {
+    private int roundPlayed;
+
     @Override
     public int getRounds() {
-        return 0;
+        return roundPlayed;
+    }
+
+    @Override
+    public void playRound() {
+        roundPlayed++;
     }
 }
 
