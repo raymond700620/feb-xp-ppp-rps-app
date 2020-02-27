@@ -1,4 +1,4 @@
-package com.xp.rps;
+package com.xp.rps.gameclient;
 
 import com.xp.rps.gameclient.PlayRequest;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class RpsApplicationTests {
+class GameClientTests {
 
     @Autowired
     private TestRestTemplate restTemplate;

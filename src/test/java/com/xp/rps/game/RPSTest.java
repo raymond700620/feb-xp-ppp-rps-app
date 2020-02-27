@@ -1,4 +1,4 @@
-package com.xp.rps;
+package com.xp.rps.game;
 
 import com.xp.rps.game.RPS;
 import com.xp.rps.game.Result;

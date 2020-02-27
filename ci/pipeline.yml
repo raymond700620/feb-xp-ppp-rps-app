@@ -63,4 +63,4 @@ jobs:
          manifest: repo/ci/manifest-dev.yml
          vars:
            app_name: rps-FILLINPAIRINITIALS
-         path: build/
+         path: build/*.jar
