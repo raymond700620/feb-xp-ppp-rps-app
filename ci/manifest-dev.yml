@@ -1,0 +1,7 @@
+---
+applications:
+- name: rps-jacky-raymond
+  routes:
+  - route: rps-jacky-raymond.cfapps.io
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+}}'

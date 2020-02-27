@@ -1,0 +1,66 @@
+definitions:
+ - &jdk-image
+   image_resource:
+     type: registry-image
+     source:
+       repository: openjdk
+       tag: 11
+
+ - &pcf-source-details
+   api: https://api.run.pivotal.io
+   Username: rtay+xp@pivotal.io
+   Password: Welcome1!
+   organization: Labs Singapore
+
+resources:
+ - name: repo
+   type: git
+   source:
+     uri: git@github.com:pivotal/feb-xp-ppp-rps-app
+     branch: jacky-raymond
+     private_key: |
+       -----BEGIN OPENSSH PRIVATE KEY-----
+       b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+       QyNTUxOQAAACATXZDYhQ+CBkFLvw/6t+tRjCkpipmp+cMtgRiROx3uywAAAJh8raKTfK2i
+       kwAAAAtzc2gtZWQyNTUxOQAAACATXZDYhQ+CBkFLvw/6t+tRjCkpipmp+cMtgRiROx3uyw
+       AAAEDUu+nD4VMxKMUeZy53SZiJPiiqGIxr4BgEKVYkLsg4bBNdkNiFD4IGQUu/D/q361GM
+       KSmKman5wy2BGJE7He7LAAAAEnJjdGF5ODlAaW5zdGFuY2UtMgECAw==
+       -----END OPENSSH PRIVATE KEY-----
+
+ - name: pws-dev
+   type: cf
+   source:
+     <<: *pcf-source-details
+     space: feb-xp-rps
+
+jobs:
+ - name: rps
+   plan:
+     - get: repo
+       trigger: true
+     - task: rps-build
+       config:
+         <<: *jdk-image
+         platform: linux
+         inputs:
+           - name: repo
+         outputs:
+           - name: build
+         run:
+           path: sh
+           args:
+             - -exc
+             - |
+               export M2_HOME=$(pwd)/.m2
+               cd repo/
+               ./gradlew build
+               cp build/libs/*.jar ../build/
+         caches:
+           - path: .gradle/
+           - path: .m2/
+     - put: pws-dev
+       params:
+         manifest: repo/ci/manifest-dev.yml
+         vars:
+           app_name: rps-FILLINPAIRINITIALS
+         path: build/
